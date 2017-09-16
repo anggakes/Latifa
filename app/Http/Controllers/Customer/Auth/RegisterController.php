@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Tymon\JWTAuth\Contracts\Providers\JWT;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -87,6 +89,8 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+//        throw new UnprocessableEntityHttpException('error cart');
+
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));

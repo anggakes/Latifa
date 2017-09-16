@@ -12,25 +12,29 @@ class Order extends Model
 
     /**
      * Status
-     * 1. waiting payment
-     * 2. waiting therapist
-     * 3. onTheWay
-     * 4. done
-     * 5. cancelled
+     * 1. waiting_payment
+     * 2. paid,
+     * 3. finding_therapist
+     * 4. onTheWay
+     * 5. done
+     * 6. cancelled
      */
 
     public $status = [
         'waiting_payment' => "Menunggu Pembayaran",
-        "waiting_therapist" => "Mencari Terapis",
-        "on_the_way" => "Dalam Perjalanan",
+        "paid" => "Pesanan telah di bayar",
+        "finding_therapist" => "Mencari Terapis",
+        "serving" => "Mulai Layanan",
         "done" => "Selesai",
-        "cancelled" => "Dibatalkan"
+        "cancelled" => "Pesanan Dibatalkan"
     ];
 
 
     protected $fillable = [
         'location_lat',
         'location_lng',
+        'address',
+        'address_label',
         'booking_date',
         'status',
         'total',
@@ -40,6 +44,9 @@ class Order extends Model
     protected $hidden = [
         'deleted_at'
     ];
+
+    // unique transaction +/-
+    public $uniqueTransactionNegative = false;
 
 
 
@@ -51,11 +58,13 @@ class Order extends Model
 
     }
 
-    public function saveInvoiceNumber(){
+    public function setInvoiceNumber($save = true){
 
         $this->invoice_number = $this->createInvoiceNumber($this->id);
 
-        $this->save();
+        if($save){
+            $this->save();
+        }
 
         return $this;
 
@@ -72,15 +81,38 @@ class Order extends Model
         return $this->hasMany(OrderCost::class, 'order_id', 'id');
     }
 
-    public function calculateTotal(){
+    public function calculateTotal($save = true){
 
-        $cost = new OrderCost();
+        $total = 0;
 
-        $detail = new OrderDetail();
+        $costs = $this->orderCosts()->get();
 
+        foreach ($costs as $cost){
+            $total += $cost->value;
+        }
+
+        $this->total = $total;
+
+        if($save){
+            $this->save();
+        }
+
+        return $this;
 
     }
 
+    public function updateStatus($status){
 
+        $this->status = $status;
+
+        $this->save();
+
+        return $this;
+    }
+
+
+    public function purchase($payment){
+
+    }
 
 }

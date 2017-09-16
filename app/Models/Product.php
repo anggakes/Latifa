@@ -16,4 +16,9 @@ class Product extends Model
         return $this->salePrice > 0 ? $this->salePrice : $this->price;
 
     }
+
+    public function fromSku($sku){
+
+        return $this->where('sku', $sku)->first();
+    }
 }

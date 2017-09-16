@@ -33,6 +33,18 @@ return [
 
     'connections' => [
 
+        'mongodb' => [
+            'driver'   => 'mongodb',
+            'host'     => env('HOST_MONGO'),
+            'port'     => env('PORT_MONGO'),
+            'database' => 'latifa',
+            'username' => '',
+            'password' => '',
+            'options'  => [
+                'database' => 'latifa',
+            ]
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => env('DB_DATABASE', database_path('database.sqlite')),

@@ -97,6 +97,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user, $token)
     {
         return response()->json([
+            'user' => $user,
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => config('jwt.ttl') * 60

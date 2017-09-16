@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Response;
 
 class ApiResponse
 {
@@ -16,13 +17,16 @@ class ApiResponse
     public function handle($request, Closure $next)
     {
 
+        /** @var Response $response */
         $response = $next($request);
         $original = $response->getOriginalContent();
 
-        $response->setContent(json_encode([
-            'success' => true,
-            'data' => $original
-        ]));
+        if($response->getStatusCode() == 200){
+            $response->setContent(json_encode([
+                'status' => 'success',
+                'data' => $original
+            ]));
+        }
 
         return $response;
     }

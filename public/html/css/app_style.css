@@ -1,0 +1,74 @@
+@import url("//unpkg.com/element-ui@1.4.2/lib/theme-default/index.css");
+
+.amount{
+    text-align: right;
+}
+
+tfoot td, tfoot th{
+    background: #e77817;
+    color: #fff !important;
+}
+
+.el-date-editor.el-input {
+    width: 100%;
+}
+
+.edit {
+    position: absolute;
+    right: 10px;
+    width: 27px;
+    height: 27px;
+    background: rgb(231, 120, 23);
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    /*padding: 2px;*/
+}
+
+.enabled-checkout{
+    background: #84c225;
+}
+
+.disabled-checkout{
+    background: #c0c0c0;
+    pointer-events: none !important;
+    cursor: default;
+}
+
+body{
+    background: #f3f3f3;
+    font-size: 14pt;
+    font-family: open sans,sans-serif;
+}
+
+.list-item .header{
+    margin: 10px 0px
+}
+
+.arrow{
+    padding-top: 2px;
+    font-weight: 100;
+}
+
+.modal-dialog-full {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.modal-content-full {
+    height: auto;
+    min-height: 100%;
+    border-radius: 0;
+}
+
+.header-channel{
+    margin: 29px 0px;
+    border-bottom: 1px solid #e77817;
+    padding: 9px 0px;
+}
+
+.header-channel h5{
+    font-weight: bold;
+}

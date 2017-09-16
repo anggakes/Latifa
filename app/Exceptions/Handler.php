@@ -5,6 +5,13 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -35,6 +42,15 @@ class Handler extends ExceptionHandler
         parent::report($exception);
     }
 
+    private function isInstanceOf($object, Array $classnames) {
+        foreach($classnames as $classname) {
+            if($object instanceof $classname){
+                return true;
+                }
+        }
+        return false;
+    }
+
     /**
      * Render an exception into an HTTP response.
      *
@@ -44,7 +60,43 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        
+        if($request->wantsJson()){
+
+            if(!$this->isInstanceOf($exception,
+                [UnauthorizedHttpException::class,
+                    AuthenticationException::class,
+                    ValidationException::class
+                ])){
+
+                // Define the response
+                $response = [
+                    'message' => ($exception instanceof BadRequestHttpException || $exception instanceof UnprocessableEntityHttpException) ? $exception->getMessage() : 'Sorry, something went wrong.',
+                    'status' => 'error'
+                ];
+
+                // If the app is in debug mode
+                if (config('app.debug')) {
+                    // Add the exception class name, message and stack trace to response
+                    $response['exception'] = get_class($exception); // Reflection might be better here
+                    $response['error'] = $exception->getMessage();
+                    $response['trace'] = $exception->getTrace();
+                }
+
+                // Default response of 400
+                $status = 400;
+
+                // If this exception is an instance of HttpException
+                if ($this->isHttpException($exception)) {
+                    // Grab the HTTP status code from the Exception
+                    $status = $exception->getStatusCode();
+                }
+
+                // Return a JSON response with the response array and status code
+                return response()->json($response, $status);
+
+            }
+
+        }
         return parent::render($request, $exception);
     }
 
@@ -58,9 +110,43 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'please login to access this',
+                'error' => 'Unauthenticated.'
+            ], 401);
         }
 
         return redirect()->guest(route('login'));
     }
+
+    /**
+     * Create a response object from the given validation exception.
+     *
+     * @param  \Illuminate\Validation\ValidationException  $e
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function convertValidationExceptionToResponse(ValidationException $e, $request)
+    {
+        if ($e->response) {
+            return $e->response;
+        }
+
+        $errors = $e->validator->errors()->getMessages();
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->validator->getMessageBag()->first(),
+                'error' => $errors
+            ], 422);
+        }
+
+        return redirect()->back()->withInput(
+            $request->input()
+        )->withErrors($errors);
+    }
+
+
 }
