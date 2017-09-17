@@ -27,7 +27,7 @@
 
         <div class="list-item" v-for="product in products">
             <div class="list-group">
-                <a href="#"   class="list-group-item list-group-item-action flex-column align-items-start">
+                <a v-on:click="addProduct(product.sku)" href="#"   class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <div class="col-4">
                             <img>
@@ -105,6 +105,26 @@
 
                 });
 
+            },
+            addProduct : function (sku) {
+
+                var data = {
+                    'sku' : sku
+                };
+                axios({
+                    method: 'post',
+                    url: apiUrl+'/customer/cart/product',
+                    headers: headers,
+                    data:data
+
+                }).then(function (response) {
+
+                    window.location='latifa://cart';
+
+                }).catch(function (error) {
+                    alert(error.data.message);
+
+                });
             }
         },
         computed:{
