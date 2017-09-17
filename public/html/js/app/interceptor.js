@@ -11,7 +11,7 @@ axios.interceptors.response.use(function (response) {
                     email : 'anggakesuma123@gmail.com',
                     password : '12345678'
                 },
-                url: 'http://latifa.dev/api/customer/login',
+                url: apiUrl+'/customer/login',
                 headers: {Accept:'application/json'}
             }).then(function (response) {
 
