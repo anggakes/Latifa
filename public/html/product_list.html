@@ -124,7 +124,7 @@
                     window.location='latifa://cart';
 
                 }).catch(function (error) {
-                    alert(error.data.message);
+                    alert(error.data.code + error.data.message);
 
                 });
             }
