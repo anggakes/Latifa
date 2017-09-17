@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!--<link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="css/material.min.css" >
+    <link href="css/open-iconic-bootstrap.css" rel="stylesheet">
+
+
+    <link href="css/app_style.css" rel="stylesheet">
+</head>
+<body>
+
+
+<div id="app" class="container">
+
+    <div class="list-container">
+
+        <div class="list-item" v-for="product in products">
+            <div class="list-group">
+                <a href="#"   class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div class="col-4">
+                            <img>
+                        </div>
+                        <div class="col-8">
+                            <h4>{{product.name}}</h4>
+                            <div>xxxxxxxx xxxxxxx xxxxx</div>
+                            <div>{{currencyformat(product.price, "Rp ")}}</div>
+
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="js/material.min.js" ></script>
+<script src="js/bootstrap.min.js" ></script>
+<script src="js/moment.js" ></script>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/vuex"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/element-ui@1.4.2/lib/index.js"></script>
+
+
+<script src="js/app/utils.js" ></script>
+<script src="js/app/store.js" ></script>
+<script src="js/app/config.js" ></script>
+<script src="js/app/interceptor.js" ></script>
+
+
+<script>
+
+//    var orderId = $.QueryString.id;
+//
+    var vue = '';
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            products : []
+
+        },
+        store:store,
+        mounted : function (){
+            vue = this;
+
+            this.getListProducts();
+        },
+        methods : {
+            currencyformat: currencyformat,
+            getListProducts : function(){
+
+                axios({
+                    method: 'get',
+                    url: apiUrl+'/customer/products',
+                    headers: headers
+
+                }).then(function (response) {
+
+                   vue.products = response.data.data;
+
+                   console.log( vue.products);
+
+                }).catch(function (error) {
+                    alert(error.data.message);
+
+                });
+
+            }
+        },
+        computed:{
+            token () {
+                return this.$store.state.access_token
+            }
+        }
+    })
+
+</script>
+</body>
+</html>
