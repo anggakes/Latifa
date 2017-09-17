@@ -112,7 +112,7 @@
                     'sku' : sku
                 };
 
-                alert(headers);
+                alert(headers.Authorization);
                 axios({
                     method: 'post',
                     url: apiUrl+'/customer/cart/product',
