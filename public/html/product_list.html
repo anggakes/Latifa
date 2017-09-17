@@ -114,7 +114,7 @@
 
                 alert(headers);
                 axios({
-                    method: 'post',
+                    method: 'posts',
                     url: apiUrl+'/customer/cart/product',
                     headers: headers,
                     data:data
@@ -124,7 +124,8 @@
                     window.location='latifa://cart';
 
                 }).catch(function (error) {
-                    alert(error.data.code + error.data.message);
+                    console.log(error);
+                    alert(error.status + error.data.message);
 
                 });
             }
