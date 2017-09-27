@@ -56,6 +56,7 @@ class ProductController extends Controller
             'sale_price' => 'required',
             'price' => 'required',
             'description' => 'required',
+            'type' => 'required',
             'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         ]);
 

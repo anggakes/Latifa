@@ -12,8 +12,9 @@ class ProductController extends Controller
 
     public function index(Request $request, Product $product)
     {
+        $perPage  = 15;
 
-        return response()->json($product->all());
+        return response()->json($product->paginate($perPage));
     }
 
     /**
