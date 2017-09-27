@@ -17,3 +17,8 @@ Route::get('/', function () {
 
 
 Route::get('customer', 'CustomerFrontend\HomeController@index');
+
+Route::get('customer/auth', 'Customer\Auth\AuthController');
+
+Route::get('customer/cart', 'Customer\Cart\CartController@page');
+

@@ -16,8 +16,6 @@ function setHeaders(headersBase64){
     headers = Base64.decode(headersBase64);
     headers = JSON.parse(headers);
 
-    console.log(headers);
-
 }
 
 if(!isMobile){

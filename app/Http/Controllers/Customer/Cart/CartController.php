@@ -18,6 +18,10 @@ class CartController extends Controller
 {
     //
 
+    public function page(){
+        return view('customer/cart');
+    }
+
     public function setProduct(Request $request, Product $product, Cart $cart){
 
         $userId = auth('customer')->user()->id;

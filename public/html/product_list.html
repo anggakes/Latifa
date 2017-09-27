@@ -63,7 +63,7 @@
 
 <script src="js/app/utils.js" ></script>
 <script src="js/app/store.js" ></script>
-<script src="js/app/config.js?1" ></script>
+<script src="js/app/config.js?2" ></script>
 <script src="js/app/interceptor.js?1" ></script>
 
 
@@ -89,6 +89,7 @@
             currencyformat: currencyformat,
             getListProducts : function(){
 
+                console.log('header di page : '+headers)
                 axios({
                     method: 'get',
                     url: apiUrl+'/customer/products',
