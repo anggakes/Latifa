@@ -11,6 +11,10 @@ class Product extends Model
 
     use SoftDeletes;
 
+    public function getImageAttribute($value){
+        return asset($value);
+    }
+
     public function getFixPrice(){
 
         return $this->salePrice > 0 ? $this->salePrice : $this->price;

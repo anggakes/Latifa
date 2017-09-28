@@ -155,7 +155,7 @@ class CartController extends Controller
                 'address_label' => $cart->location['label'],
                 'booking_date' => $cart->booking_date,
                 'note'  => $note,
-                'status' => 'waiting_payment',
+                'status' => 'finding_therapist',
                 'total' => 0,
                 'user_id' => auth('customer')->id()
             ]);

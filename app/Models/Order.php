@@ -21,8 +21,6 @@ class Order extends Model
      */
 
     public $status = [
-        'waiting_payment' => "Menunggu Pembayaran",
-        "paid" => "Pesanan telah di bayar",
         "finding_therapist" => "Mencari Terapis",
         "serving" => "Mulai Layanan",
         "done" => "Selesai",

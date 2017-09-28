@@ -25,13 +25,10 @@ class OrderController extends Controller
 
     public function all(Request $request, Order $order){
 
-        throw new NotFoundHttpException("asas");
-
         $userId  = auth('customer')->id();
-        $limit = 10;
-        $offset = $request->has('offset') ? $request->offset : 0;
+        $perPage = 15;
 
-        $orders = $order->where('user_id', $userId)->limit($limit)->offset($offset)->get();
+        $orders = $order->where('user_id', $userId)->paginate($perPage);
 
 
         return response()->json($orders);
