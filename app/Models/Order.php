@@ -109,9 +109,9 @@ class Order extends Model
     }
 
 
-    public function product(){
+    public function orderDetail(){
 
-        return $this->hasOne(Product::class);
+        return $this->hasOne(OrderDetail::class);
 
     }
 
