@@ -37,7 +37,7 @@ class OrderController extends Controller
             $orders->where('status', 'done');
         }
 
-        $orders = $orders->with('orderDetail')->paginate($perPage);
+        $orders = $orders->with('orderDetail.product')->paginate($perPage);
 
 
         return response()->json($orders);
