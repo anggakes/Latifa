@@ -84,7 +84,9 @@ class CartController extends Controller
 
             if($cart->voucher != null) $cart->removeVoucher()->save();
 
-            if(!$voucherCode) throw  new VoucherException('voucher tidak valid');
+            if(!$voucherCode) {
+                $cart->removeVoucher()->save();
+            }
 
             $voucher = $voucher->apply($cart, $voucherCode);
 
@@ -193,14 +195,16 @@ class CartController extends Controller
             $cart->delete();
 
 
-            $redirectMobile  = "payment_list/".$order->id;
-            $redirectWeb  = '/html/payment_list.html?mobile=false&id='.$order->id;
+//            $redirectMobile  = "payment_list/".$order->id;
+//            $redirectWeb  = '/html/payment_list.html?mobile=false&id='.$order->id;
 
-            $response = [
-                'order' => $order,
-                'redirectWeb' => $redirectWeb,
-                'redirectMobile' => $redirectMobile
-            ];
+//            $response = [
+//                'order' => $order,
+//                'redirectWeb' => $redirectWeb,
+//                'redirectMobile' => $redirectMobile
+//            ];
+
+            $response = $order;
 
             return response()->json($response);
 

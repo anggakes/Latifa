@@ -65,10 +65,11 @@ Route::group([
 
         // home
 
-        Route::get('home', 'Customer\HomeController');
-
 
     });
+
+    Route::get('home', 'Customer\HomeController');
+
 
 });
 

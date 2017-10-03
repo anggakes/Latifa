@@ -15,6 +15,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\Order\OrderCheckout' => [
             'App\Listeners\SendNotification',
+            'App\Listeners\OrderCheckout',
         ],
     ];
 
