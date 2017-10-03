@@ -26,9 +26,18 @@ class OrderController extends Controller
     public function all(Request $request, Order $order){
 
         $userId  = auth('customer')->id();
+        $status  = $request->status;
+
+
         $perPage = 15;
 
-        $orders = $order->where('user_id', $userId)->paginate($perPage);
+        $orders = $order->where('user_id', $userId);
+
+        if($status == 'done'){
+            $orders->where('status', 'done');
+        }
+
+        $orders = $orders->paginate($perPage);
 
 
         return response()->json($orders);
