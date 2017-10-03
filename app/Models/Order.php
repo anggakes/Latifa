@@ -109,7 +109,9 @@ class Order extends Model
     }
 
 
-    public function purchase($payment){
+    public function product(){
+
+        return $this->hasOne(Product::class);
 
     }
 
