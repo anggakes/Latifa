@@ -86,6 +86,7 @@ class CartController extends Controller
 
             if(!$voucherCode) {
                 $cart->removeVoucher()->save();
+                return $cart;
             }
 
             $voucher = $voucher->apply($cart, $voucherCode);
