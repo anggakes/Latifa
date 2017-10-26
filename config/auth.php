@@ -48,6 +48,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'customer'
         ],
+        'therapist' => [
+            'driver' => 'jwt',
+            'provider' => 'therapist'
+        ],
         'admin' => [
             'driver' => 'jwt',
             'provider' => 'admin'
@@ -80,6 +84,10 @@ return [
         'customer' => [
             'driver' => 'eloquent',
             'model' => \App\Models\Customer\Customer::class,
+        ],
+        'therapist' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Therapist\Therapist::class,
         ],
         'admin' => [
             'driver' => 'eloquent',

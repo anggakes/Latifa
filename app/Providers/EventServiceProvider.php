@@ -16,6 +16,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\Order\OrderCheckout' => [
             'App\Listeners\SendNotification',
             'App\Listeners\OrderCheckout',
+            'App\Listeners\BiddingTherapist',
         ],
     ];
 

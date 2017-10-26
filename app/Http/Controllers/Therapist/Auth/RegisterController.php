@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\Therapist\Auth;
 
-use App\Models\Admin\Admin;
-use App\Models\Customer\Therapist;
+use App\Models\Therapist\Therapist;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
@@ -11,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Tymon\JWTAuth\Contracts\Providers\JWT;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -26,8 +27,6 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
-
-    private $guard = 'admin';
 
     use RegistersUsers;
 
@@ -58,7 +57,7 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins',
+            'email' => 'required|string|email|max:255|unique:therapists',
             'password' => 'required|string|min:6|confirmed',
         ]);
     }
@@ -71,7 +70,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return Admin::create([
+        return Therapist::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -90,11 +89,13 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+//        throw new UnprocessableEntityHttpException('error cart');
+
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
 
-        $this->guard($this->guard)->login($user);
+        $this->guard('therapist')->login($user);
 
         return response()->json([
             'user' => $user,

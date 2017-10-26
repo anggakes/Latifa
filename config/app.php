@@ -179,6 +179,7 @@ return [
 
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        NotificationChannels\OneSignal\OneSignalServiceProvider::class,
 
     ],
 

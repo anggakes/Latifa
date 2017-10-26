@@ -98,3 +98,49 @@ Route::group([
     Route::resource('product', 'Admin\Product\ProductController');
 
 });
+
+
+Route::post('pn/reg', 'PushNotification\PushNotificationController@register');
+
+
+
+Route::group([
+    'prefix' => 'therapist',
+    'middleware' => ['api_response'],
+], function () {
+    // Authentication Routes...
+
+    Route::post('login', 'Therapist\Auth\LoginController@login');
+
+    Route::post('register', 'Therapist\Auth\RegisterController@register');
+
+    Route::get('logout', 'Therapist\Auth\LoginController@logout');
+
+    Route::post('order/response', 'Therapist\Auth\RegisterController@register');
+
+
+    Route::get('test', function(){
+        $b = new \App\Models\Bidding\BiddingTherapist(null, new \App\Models\Bidding\Offer(), new \App\Models\Therapist\Therapist());
+
+
+        $t = $b->getTherapist();
+
+//        $b->assign($t);
+
+        print_r($t->toArray());
+        $t->notify(new \App\Notifications\BiddingOrder((new \App\Models\Order())->find(44)));
+//
+//        Notification::send($t, new InvoicePaid($invoice));
+
+        return $t;
+
+    });
+
+    Route::get('reset', function(){
+        $b = new \App\Models\Bidding\BiddingTherapist(null, new \App\Models\Bidding\Offer(), new \App\Models\Therapist\Therapist());
+
+        $b->reset();
+
+    });
+
+});
