@@ -77,7 +77,7 @@ class BiddingTherapist
 
     public function assignFromTherapist($therapist){
 
-
+        print_r($therapist);exit;
         $offer = $this->offer->find($therapist->id);
 
         $offer->increment('offer');
