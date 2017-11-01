@@ -49,7 +49,7 @@ class BiddingTherapist
             $offer =$this->offer->orderBy('offer', 'asc')->first();
             $settings = $settings->where(['userId' => $offer->therapist_id])->first();
 
-            if($settings->activeOrder){
+            if(isset($settings->activeOrder) and $settings->activeOrder== "true"){
                 $found = true;
             }
 
