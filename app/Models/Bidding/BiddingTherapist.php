@@ -75,6 +75,16 @@ class BiddingTherapist
 
     }
 
+    public function assignFromTherapist($therapist){
+
+
+        $offer = $this->offer->find($therapist->id);
+
+        $offer->increment('offer');
+
+
+    }
+
     public function addOfferTherapist($therapist){
         $offer = $this->offer->firstOrCreate([
             'therapist_id'  => $therapist->id,
