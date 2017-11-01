@@ -3,7 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\Order\OrderCheckout;
+use App\Models\Bidding\LogBidding;
+use App\Models\Bidding\Offer;
+use App\Models\Order;
 use App\Models\Therapist\Settings;
+use App\Models\Therapist\Therapist;
 use App\Notifications\BiddingOrder;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,6 +20,7 @@ class BiddingTherapist
 
     protected $biddingTherapist;
     protected $settings;
+    protected $log;
 
 
     /**
@@ -23,12 +28,15 @@ class BiddingTherapist
      *
      * @return void
      */
-    public function __construct(Bidding $biddingTherapist, Settings $settings)
+    public function __construct(Bidding $biddingTherapist,
+                                Settings $settings,
+                                LogBidding $logBidding)
     {
 
         //
-        $this->biddingTherapist = $biddingTherapist;
+        $this->biddingTherapist = new Bidding(new Order, new Offer(), new Therapist());
         $this->settings = $settings;
+        $this->log = $logBidding;
     }
 
     /**
@@ -47,7 +55,15 @@ class BiddingTherapist
 
         //
 
+        $this->log->create([
+            'therapist_id' => $t->id,
+            'invoice_number' => $event->order->invoice_number,
+            'response' => 'reject'
+        ]);
+
         $t->notify(new BiddingOrder($event->order));
+
+
 
     }
 }
