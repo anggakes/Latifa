@@ -52,7 +52,7 @@ class BiddingTherapist
 
 //        $this->biddingTherapist->assignFromTherapist($t);
         $t = new Therapist();
-        $t = $t->find(3);
+        $t = $t->find(1);
 
         //
 
