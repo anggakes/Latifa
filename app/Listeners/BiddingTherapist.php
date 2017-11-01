@@ -28,8 +28,7 @@ class BiddingTherapist
      *
      * @return void
      */
-    public function __construct(Bidding $biddingTherapist,
-                                Settings $settings,
+    public function __construct(Settings $settings,
                                 LogBidding $logBidding)
     {
 
