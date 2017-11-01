@@ -48,7 +48,7 @@ class BiddingOrder extends Notification
         return OneSignalMessage::create()
             ->subject("Anda mendapatkan Order")
             ->body("Klik disini untuk menerima atau menolaknya")
-            ->url('latifa://bidding_order')
+            ->url('latifa://bidding_order?inv='.$this->order->invoice_number)
             ->setData('orderInvoice', $this->order->invoice_number)
             ->setData('type', "biddingOrder")
             ;

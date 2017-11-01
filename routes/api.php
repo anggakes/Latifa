@@ -118,6 +118,19 @@ Route::group([
 
     Route::post('order/response', 'Therapist\Auth\RegisterController@register');
 
+    Route::group(['middleware' => ['auth:customer', 'check_role:customer']], function () {
+
+
+        Route::post('order/accept_reject', 'Therapist\OrderController@acceptReject');
+
+
+        Route::post('settings/order', 'Therapist\SettingsController@setOrder');
+        Route::get('settings/order', 'Therapist\SettingsController@getOrder');
+
+        Route::post('current_location', 'Therapist\CurrentLocationController');
+
+    });
+
 
     Route::get('test', function(){
         $b = new \App\Models\Bidding\BiddingTherapist(null, new \App\Models\Bidding\Offer(), new \App\Models\Therapist\Therapist());

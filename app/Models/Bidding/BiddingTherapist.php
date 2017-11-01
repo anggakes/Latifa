@@ -9,6 +9,7 @@
 namespace App\Models\Bidding;
 
 
+use App\Models\Therapist\Settings;
 use App\Models\Therapist\Therapist;
 use Carbon\Carbon;
 
@@ -34,7 +35,7 @@ class BiddingTherapist
 
     }
 
-    public function getTherapist(){
+    public function getTherapist(Settings $settings){
 
         $todayBid = cache('today_bid');
 
@@ -42,7 +43,19 @@ class BiddingTherapist
             $this->reset();
         }
 
-        $offer =$this->offer->orderBy('offer', 'asc')->first();
+        $found = false;
+
+        while(!$found){
+            $offer =$this->offer->orderBy('offer', 'asc')->first();
+            $settings = $settings->where(['userId' => $offer->therapist_id])->first();
+
+            if($settings->activeOrder){
+                $found = true;
+            }
+
+            $this->assign($offer);
+        }
+
 
         $therapist = $this->therapist->find($offer->therapist_id);
 
@@ -51,12 +64,24 @@ class BiddingTherapist
 
     }
 
-    public function assign($therapist){
+    public function assign($offer){
 
-        $offer = $this->offer->where('therapist_id', $therapist->id)->first();
+        if($offer instanceof Therapist){
+            $offer = $this->offer->find($offer->therapist_id);
+        }
 
         $offer->increment('offer');
 
+
+    }
+
+    public function addOfferTherapist($therapist){
+        $offer = $this->offer->firstOrCreate([
+            'therapist_id'  => $therapist->id,
+            'offer' => 0
+        ]);
+
+        return $offer;
     }
 
     public function reset(){

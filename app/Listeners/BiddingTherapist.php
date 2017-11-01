@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\Order\OrderCheckout;
+use App\Models\Therapist\Settings;
 use App\Notifications\BiddingOrder;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,6 +15,7 @@ class BiddingTherapist
 
 
     protected $biddingTherapist;
+    protected $settings;
 
 
     /**
@@ -21,11 +23,12 @@ class BiddingTherapist
      *
      * @return void
      */
-    public function __construct(Bidding $biddingTherapis )
+    public function __construct(Bidding $biddingTherapist, Settings $settings)
     {
 
         //
-        $this->biddingTherapist = $biddingTherapis;
+        $this->biddingTherapist = $biddingTherapist;
+        $this->settings = $settings;
     }
 
     /**
@@ -38,7 +41,7 @@ class BiddingTherapist
     {
 
 
-        $t = $this->biddingTherapist->getTherapist();
+        $t = $this->biddingTherapist->getTherapist($this->settings);
 
         $this->biddingTherapist->assign($t);
 
