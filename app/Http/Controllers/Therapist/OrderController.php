@@ -26,7 +26,10 @@ class OrderController extends Controller
 
     public function detail(Request $request, Order $order, $invoiceNumber){
 
-        $order = $order->where('invoice_number', $invoiceNumber)->first();
+        $order = $order->where('invoice_number', $invoiceNumber)
+            ->with('orderDetail')
+            ->with('orderCosts')
+            ->first();
 
         return response()->json($order);
     }
