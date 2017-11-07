@@ -122,11 +122,11 @@ Route::group([
 
 
         Route::post('order/accept_reject', 'Therapist\OrderController@acceptReject');
-        Route::post('order/detail', 'Therapist\OrderController@detail');
+        Route::get('order/detail', 'Therapist\OrderController@detail');
 
 
         Route::post('settings/order', 'Therapist\SettingsController@setOrder');
-        Route::get('settings/order', 'Therapist\SettingsController@getOrder');
+        Route::get('settings/order/{invoiceNumber}', 'Therapist\SettingsController@getOrder');
 
         Route::post('current_location', 'Therapist\CurrentLocationController');
 

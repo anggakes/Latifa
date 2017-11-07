@@ -24,9 +24,7 @@ class OrderController extends Controller
 
     }
 
-    public function detail(Request $request, Order $order){
-        
-        $invoiceNumber = $request->invoice_number;
+    public function detail(Request $request, Order $order, $invoiceNumber){
 
         $order = $order->where('invoice_number', $invoiceNumber)->first();
 
