@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Therapist;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
