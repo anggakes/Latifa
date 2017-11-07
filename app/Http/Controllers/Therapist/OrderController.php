@@ -10,6 +10,7 @@ namespace App\Http\Controllers\Therapist;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use GuzzleHttp\Psr7\Request;
 
 class OrderController extends Controller
@@ -21,6 +22,15 @@ class OrderController extends Controller
         $response = $request->response;
 
 
+    }
+
+    public function detail(Request $request, Order $order){
+        
+        $invoiceNumber = $request->invoice_number;
+
+        $order = $order->where('invoice_number', $invoiceNumber)->first();
+
+        return response()->json($order);
     }
 
 }

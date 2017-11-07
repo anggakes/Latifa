@@ -122,12 +122,18 @@ Route::group([
 
 
         Route::post('order/accept_reject', 'Therapist\OrderController@acceptReject');
+        Route::post('order/detail', 'Therapist\OrderController@detail');
 
 
         Route::post('settings/order', 'Therapist\SettingsController@setOrder');
         Route::get('settings/order', 'Therapist\SettingsController@getOrder');
 
         Route::post('current_location', 'Therapist\CurrentLocationController');
+
+
+
+        // isi wallet
+        Route::post('wallet/debit', 'Therapist\WalletController@debit');
 
     });
 
