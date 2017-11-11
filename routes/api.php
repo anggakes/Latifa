@@ -118,7 +118,7 @@ Route::group([
 
     Route::post('order/response', 'Therapist\Auth\RegisterController@register');
 
-    Route::group(['middleware' => ['auth:customer', 'check_role:customer']], function () {
+    Route::group(['middleware' => ['auth:therapist', 'check_role:therapist']], function () {
 
 
         Route::post('order/accept_reject', 'Therapist\OrderController@acceptReject');
